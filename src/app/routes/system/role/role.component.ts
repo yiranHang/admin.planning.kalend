@@ -1,5 +1,7 @@
+import { HttpContext } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { STColumn, STComponent } from '@delon/abc/st';
+import { ALLOW_ANONYMOUS } from '@delon/auth';
 import { SFSchema } from '@delon/form';
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import { map } from 'rxjs';
@@ -49,7 +51,9 @@ export class SystemRoleComponent implements OnInit {
 
   ngOnInit(): void {
     this.http
-      .get(`http://localhost:3000/role`)
+      .get(`http://192.168.2.107/api/role`, null, {
+        context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+      })
       .pipe(map((res: any) => res.data))
       .subscribe((res: any) => {
         this.data = res.data;

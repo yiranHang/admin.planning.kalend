@@ -128,9 +128,10 @@ export class DefaultInterceptor implements HttpInterceptor {
   private reAttachToken(req: HttpRequest<any>): HttpRequest<any> {
     // 以下示例是以 NG-ALAIN 默认使用 `SimpleInterceptor`
     const token = this.tokenSrv.get()?.token;
+    console.log('🚀 ~ DefaultInterceptor ~ token', token);
     return req.clone({
       setHeaders: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoi5p2t6bqfIiwiaWQiOiI5ZjY5NmYxZC03ZTE3LTQ4ZDMtOWMyMi02OTUyYjQ5MTc2ZDYiLCJyb2xlcyI6W3siaWQiOiJlMzc4ODQ5Zi04ZjM0LTRkOWUtOTE4MC0xYmUxM2MzZTQ0Y2IiLCJjcmVhdGVUaW1lIjoiMjAyMi0xMS0wOFQwMToxNzowNy44MzlaIiwidXBkYXRlVGltZSI6IjIwMjItMTEtMDhUMDE6MTc6MDcuODM5WiIsImRlbGV0ZWRUaW1lIjpudWxsLCJuYW1lIjoi6LaF57qn566h55CG5ZGYIiwiY29kZSI6IkFETUlOIiwicmVtYXJrIjoi6LaF57qn566h55CG5ZGYIn1dLCJpYXQiOjE2Njk2MDYwNTYsImV4cCI6MTY4NTE1ODA1Nn0.zjgBQWAafjmA6uLcSqhA5OmVWwSQ4iD1kzMlQ_usAk4`
+        Authorization: `Bearer ${token}`
       }
     });
   }
@@ -243,8 +244,8 @@ export class DefaultInterceptor implements HttpInterceptor {
       const { baseUrl } = environment.api;
       url = baseUrl + (baseUrl.endsWith('/') && url.startsWith('/') ? url.substring(1) : url);
     }
-
-    const newReq = req.clone({ url, setHeaders: this.getAdditionalHeaders(req.headers) });
+    const newReq = this.reAttachToken(req);
+    // console.log('🚀 ~ DefaultInterceptor ~ newReq', newReq);
     return next.handle(newReq).pipe(
       mergeMap(ev => {
         // 允许统一对请求错误处理
