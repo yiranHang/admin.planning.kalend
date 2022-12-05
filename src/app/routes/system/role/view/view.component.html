@@ -1,0 +1,18 @@
+<nz-input-group [nzSuffix]="suffixIcon">
+  <input type="text" nz-input placeholder="请输入查询关键字" [(ngModel)]="searchValue" />
+</nz-input-group>
+<ng-template #suffixIcon>
+  <i nz-icon nzType="search"></i>
+</ng-template>
+<nz-tree
+  #tree
+  [nzData]="nodes"
+  nzAsyncData
+  nzCheckable
+  nzMultiple
+  [nzCheckedKeys]="defaultCheckedKeys"
+  [nzSearchValue]="searchValue"
+  (nzCheckBoxChange)="checkBoxChange($event)"
+  style="margin-top: 10px"
+>
+</nz-tree>

@@ -1,0 +1,9 @@
+<sf *ngIf="schema" #sf mode="edit" [formData]="i" [schema]="schema" button="none">
+  <ng-template sf-template="permission" let-i let-ui="ui" let-schema="schema">
+    <app-system-role-view [data]="i.value" (checkTreeChange)="checkTreeChange($event)"></app-system-role-view>
+  </ng-template>
+  <div class="drawer-footer">
+    <button nz-button type="button" (click)="modal.close()">关闭</button>
+    <button nz-button type="submit" nzType="primary" (click)="save()" [disabled]="!sf.valid" [nzLoading]="http.loading">保存</button>
+  </div>
+</sf>
