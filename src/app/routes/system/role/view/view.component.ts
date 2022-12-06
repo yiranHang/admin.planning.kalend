@@ -17,9 +17,7 @@ export class SystemRoleViewComponent implements OnInit {
   constructor(private http: _HttpClient) {}
 
   ngOnInit(): void {
-    console.log('🚀 ~ SystemRoleViewComponent ~ this.data', this.data);
-
-    this.http.get(`http://localhost:3000/dictionary-detail/tree-permissions`).subscribe(res => {
+    this.http.get(`http://192.168.2.107/api/dictionary-detail/tree-permissions`).subscribe(res => {
       this.nodes = res.data || [];
       this.defaultCheckedKeys = (this.data || []).map((r: Record<'id', string>) => r.id);
     });

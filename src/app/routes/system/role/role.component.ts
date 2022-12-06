@@ -6,6 +6,7 @@ import { SFSchema } from '@delon/form';
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import { map } from 'rxjs';
 
+import { SystemRoleAddComponent } from './add/add.component';
 import { SystemRoleEditComponent } from './edit/edit.component';
 
 @Component({
@@ -60,8 +61,6 @@ export class SystemRoleComponent implements OnInit {
       });
   }
   add(): void {
-    // this.modal
-    //   .createStatic(FormEditComponent, { i: { id: 0 } })
-    //   .subscribe(() => this.st.reload());
+    this.modal.createStatic(SystemRoleAddComponent, { i: { id: 0 } }).subscribe(() => this.st.reload());
   }
 }

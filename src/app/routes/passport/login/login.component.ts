@@ -7,6 +7,7 @@ import { ReuseTabService } from '@delon/abc/reuse-tab';
 import { ALLOW_ANONYMOUS, DA_SERVICE_TOKEN, ITokenService, SocialOpenType, SocialService } from '@delon/auth';
 import { SettingsService, _HttpClient } from '@delon/theme';
 import { environment } from '@env/environment';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzTabChangeEvent } from 'ng-zorro-antd/tabs';
 import { finalize, lastValueFrom } from 'rxjs';
 
@@ -29,7 +30,8 @@ export class UserLoginComponent implements OnDestroy {
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private startupSrv: StartupService,
     private http: _HttpClient,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private message: NzMessageService
   ) {}
 
   // #region fields
@@ -58,10 +60,9 @@ export class UserLoginComponent implements OnDestroy {
 
   async getCaptcha(): Promise<void> {
     const mobile = this.form.controls.mobile;
-    console.log('🚀 ~ UserLoginComponent ~ this.form.controls', this.form.controls.captcha.value);
-
     const result = await lastValueFrom(this.http.post(`http://192.168.2.107/api/sms/login-valid`, { phone: mobile.value }));
     this.form.value.captcha = result.data.validation;
+    this.message.success(result.data.validation);
     this.count = 59;
     this.interval$ = setInterval(() => {
       this.count -= 1;

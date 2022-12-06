@@ -1,0 +1,63 @@
+<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>原密码</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="oldPasswordTip">
+      <nz-input-group [nzSuffix]="suffixTemplatess">
+        <input nz-input formControlName="oldPassword" [type]="passwordVisibless ? 'text' : 'password'" [(ngModel)]="oldPassword" />
+      </nz-input-group>
+      <ng-template #suffixTemplatess>
+        <i nz-icon [nzType]="passwordVisibless ? 'eye-invisible' : 'eye'" (click)="passwordVisibless = !passwordVisibless"></i>
+      </ng-template>
+      <ng-template #oldPasswordTip let-control>
+        <ng-container *ngIf="control.hasError('required')">请输入您的原密码!</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <!-- 新密码 -->
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>新密码</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="passwordTip">
+      <nz-input-group [nzSuffix]="suffixTemplate">
+        <input
+          nz-input
+          [type]="passwordVisible ? 'text' : 'password'"
+          [(ngModel)]="password"
+          formControlName="password"
+          (ngModelChange)="validateConfirmPassword()"
+        />
+      </nz-input-group>
+      <ng-template #suffixTemplate>
+        <i nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'" (click)="passwordVisible = !passwordVisible"></i>
+      </ng-template>
+      <ng-template #passwordTip let-control>
+        <ng-container *ngIf="control.hasError('password')">请输入正确格式的密码!</ng-container>
+        <ng-container *ngIf="control.hasError('required')">请输入您的新密码!</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="7" nzRequired>确认新密码</nz-form-label>
+    <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="passwordErrorTpl">
+      <nz-input-group [nzSuffix]="suffixTemplates">
+        <input nz-input [type]="passwordVisibles ? 'text' : 'password'" formControlName="confirm" [(ngModel)]="confirm" />
+      </nz-input-group>
+      <ng-template #suffixTemplates>
+        <i nz-icon [nzType]="passwordVisibles ? 'eye-invisible' : 'eye'" (click)="passwordVisibles = !passwordVisibles"></i>
+      </ng-template>
+      <ng-template #passwordErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')">请再次输入您的密码!</ng-container>
+        <ng-container *ngIf="control.hasError('confirm')">密码不一致!</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+  <p style="margin-left: 50%"> <span style="color: red">*</span>密码为8~12位,含字母大小写、特殊字符、数字</p>
+  <nz-form-item>
+    <nz-form-control [nzOffset]="7" [nzSpan]="12">
+      <button nz-button nzType="primary" [disabled]="!validateForm.valid">确定</button>
+      <button nz-button (click)="resetForm($event)">重置</button>
+    </nz-form-control>
+  </nz-form-item>
+</form>

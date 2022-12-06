@@ -33,11 +33,11 @@ export class SystemRoleEditComponent implements OnInit {
 
   checkTreeChange(treeKeys: string[]) {
     this.treeCheck = treeKeys;
-    console.log('🚀 ~ SystemRoleEditComponent ~ this.treeCheck ', this.treeCheck);
   }
   save() {
     if (this.i?.id) {
-      this.http.patch(`http://localhost:3000/role/${this.i?.id}`, { permission: this.treeCheck }).subscribe(() => {
+      this.http.patch(`http://192.168.2.107/api/role/${this.i?.id}`, { permission: this.treeCheck }).subscribe(() => {
+        this.msgSrv.success('保存成功');
         this.modal.close(true);
       });
     }
